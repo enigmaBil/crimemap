@@ -1,9 +1,10 @@
+import re
 from dbhelper import DBHelper
 
 
 from flask import Flask
 from flask import render_template
-from flask import resquest
+from flask import request
 
 
 app = Flask(__name__)
@@ -23,7 +24,7 @@ def index():
 @app.route("/add", methods=["POST"])
 def add():
     try:
-        data = resquest.form.get("userinput")
+        data = request.form.get("userinput")
         DB.add_input(data)
     except Exception as e:
         print(e)
@@ -36,6 +37,16 @@ def clear():
         DB.clear_all()
     except Exception as e:
         print(e)
+    return index()
+
+@app.route("/submitcrime", methods=['POST'])
+def submitcrime():
+    category = request.form.get("category")
+    date = request.form.get("date")
+    latitude = float(request.form.get("latitude"))
+    longitude = float(request.form.get("longitude"))
+    description = request.form.get("description")
+    DB.add_crime(category, date, latitude, longitude, description)
     return index()
 
 

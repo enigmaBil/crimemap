@@ -16,7 +16,8 @@ try:
             date DATETIME,
             category VARCHAR(50),
             description VARCHAR(1000),
-            updated_at TIMESTAMP,
+            created_at TIMESTAMP DEFAULT NOW(), 
+            updated_at TIMESTAMP DEFAULT NOW() ON UPDATE NOW(),
             PRIMARY KEY (id)
         )"""
         cursor.execute(sql);

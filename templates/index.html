@@ -4,17 +4,29 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="{{url_for('static',filename='css/style.css') }}" />
     <title>Crime Map</title>
 </head>
 <body>
-    <h1>Crime Map</h1>
-    <form action="/add" method="POST">
-        <input type="text" name="userinput">
-        <input type="submit" value="Submit">
-    </form>
-    <a href="/clear">clear</a>
-    {% for userinput in data %}
-    <p>{{userinput}}</p>
-    {% endfor %}
+    <h2 class="container">Submit new crime</h2>
+    <div id="newcrimeform" class="container">
+        
+            <form action="/submitcrime" method="POST">
+                <label for="category">Category</label>
+                <select name="category" id="category">
+                    <option value="mugging">Mugging</option>
+                    <option value="breakin">Break-in</option>
+                </select>
+                <label for="date">Date</label>
+                <input name="date" id="date" type="date">
+                <label for="latitude">Latitude</label>
+                <input name="latitude" id="latitude" type="number">
+                <label for="longitude">Longitude</label>
+                <input name="longitude" id="longitude"type="number">
+                <label for="description">Description</label>
+                <textarea name="description" id="description" placeholder="A brief but detailed description of the crime"></textarea>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
 </body>
 </html>
