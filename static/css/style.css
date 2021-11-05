@@ -38,6 +38,10 @@ textarea{
     
 }
 
+#error {
+  color: red;
+  }
+  
 input, select, textarea {
     display: block;
     color: grey;

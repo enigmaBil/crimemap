@@ -20,14 +20,26 @@ categories = ['mugging', 'break-in', 'dancing']
 def format_date(userdate):
         date = dateparser.parse(userdate)
         try:
-            return datetime.datetime.strftime(date, "%y-%m-%d")
+            return datetime.datetime.strftime(date, "%d-%m-%y")
         except TypeError:
             return None
         
+def convert(s):
+      
+    # initialization of string to ""
+    new = ""
+  
+    # traverse in the string 
+    for x in s:
+        new += x 
+  
+    # return string 
+    return new
 
 def sanitize_string(userinput):
-    whitelist = string.letters + string.digits + " !?$.,;:-'()&"
-    return filter(lambda x: x in whitelist, userinput)
+    whitelist = string.ascii_letters + string.digits + " !?$.,;:-'()&"
+    safeuserInput = list(filter(lambda x: x in whitelist, userinput))
+    return convert(safeuserInput)
 
 @app.route("/")
 def index(error_message=None):
@@ -63,10 +75,10 @@ def submitcrime():
     category = request.form.get("category")
     if category not in categories:
         return index()
-    
-    date = format_date(request.form.get("date"))
-    if not date:
-        return index("invalid date. Please use yyyy-mm-dd format")
+    date = request.form.get("date")
+    # date = format_date(request.form.get("date"))
+    # if not date:
+        # return index("invalid date. Please use dd-mm-yyyy format")
     
     try: 
         latitude = float(request.form.get("latitude"))
