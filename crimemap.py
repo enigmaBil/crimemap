@@ -8,6 +8,7 @@ from flask import request
 import json
 import datetime
 import dateparser
+import string
 
 
 app = Flask(__name__)
@@ -22,6 +23,11 @@ def format_date(userdate):
             return datetime.datetime.strftime(date, "%y-%m-%d")
         except TypeError:
             return None
+        
+
+def sanitize_string(userinput):
+    whitelist = string.letters + string.digits + " !?$.,;:-'()&"
+    return filter(lambda x: x in whitelist, userinput)
 
 @app.route("/")
 def index(error_message=None):
@@ -67,7 +73,10 @@ def submitcrime():
         longitude = float(request.form.get("longitude"))
     except ValueError:
         return index()
-    description = request.form.get("description")
+    
+    
+    description = sanitize_string(request.form.get("description"))
+    
     DB.add_crime(category, date, latitude, longitude, description)
     return index()
 
